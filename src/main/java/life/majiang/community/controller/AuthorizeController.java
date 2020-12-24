@@ -44,6 +44,7 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             //根据access token获取user信息
             //讲user信息与本地token绑定 token放在cookie中 下次访问如果有正确的cookie中的token则直接登录
 

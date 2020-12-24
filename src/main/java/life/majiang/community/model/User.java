@@ -1,12 +1,6 @@
 package life.majiang.community.model;
 
 public class User {
-    private int id;
-    private String name;
-    private String accountId;
-    private String token;
-    private Long gmtCreate;
-
     public int getId() {
         return id;
     }
@@ -23,7 +17,7 @@ public class User {
         this.name = name;
     }
 
-    public String getAccountId(String s) {
+    public String getAccountId() {
         return accountId;
     }
 
@@ -47,6 +41,14 @@ public class User {
         this.gmtCreate = gmtCreate;
     }
 
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
     public Long getGmtModified() {
         return gmtModified;
     }
@@ -55,6 +57,12 @@ public class User {
         this.gmtModified = gmtModified;
     }
 
+    private int id;
+    private String name;
+    private String accountId;
+    private String token;
+    private Long gmtCreate;
+    private String avatarUrl;
     private Long gmtModified;
 
 }
