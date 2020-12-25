@@ -88,4 +88,20 @@ public class QuestionService {
         return questionDTO;
 
     }
+
+    public void createOrUpdate(Question question) {
+
+        if(question.getId()!=null){
+            //update
+            question.setGmtModified(System.currentTimeMillis());
+
+            questionMapper.update(question);
+        }
+        else{
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            //create
+            questionMapper.create(question);
+        }
+    }
 }

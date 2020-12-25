@@ -45,13 +45,12 @@ public class AuthorizeController {
             String token=UUID.randomUUID().toString();
             user.setToken(token);
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
+
             user.setAvatarUrl(githubUser.getAvatarUrl());
             //根据access token获取user信息
             //讲user信息与本地token绑定 token放在cookie中 下次访问如果有正确的cookie中的token则直接登录
             userService.createOrUpdate(user);
-            userMapper.insert(user);
+
             response.addCookie(new Cookie("token",token));
             request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
@@ -62,5 +61,16 @@ public class AuthorizeController {
         }
 
 
+    }
+    @GetMapping("/logout")
+    public String logout(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ){
+       request.getSession().removeAttribute("user");
+        Cookie cookie=new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }
