@@ -5,6 +5,7 @@ import life.majiang.community.dto.GithubUser;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
 import life.majiang.community.provider.GithubProvider;
+import life.majiang.community.service.UserService;
 import okhttp3.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    UserService userService;
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code, @RequestParam(name="state") String state,
                            HttpServletRequest request,
@@ -47,7 +50,7 @@ public class AuthorizeController {
             user.setAvatarUrl(githubUser.getAvatarUrl());
             //根据access token获取user信息
             //讲user信息与本地token绑定 token放在cookie中 下次访问如果有正确的cookie中的token则直接登录
-
+            userService.createOrUpdate(user);
             userMapper.insert(user);
             response.addCookie(new Cookie("token",token));
             request.getSession().setAttribute("user",githubUser);

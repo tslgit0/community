@@ -43,25 +43,9 @@ public class PublishController {
             model.addAttribute("error","补充不能为空");
             return "publish";
         }
-        Cookie[] cookies =request.getCookies();
-
-        User user=null;
-        try {
-
-            for (Cookie c:cookies){
-                if (c.getName().equals("token"))
-                {
-                    String token = c.getValue();
-                    user =userMapper.findBytoken(token);
-                    if(user!=null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
+        User user=(User)request.getSession().getAttribute("user");
+        if(user==null){
+            return "redirect:/";
         }
 
 

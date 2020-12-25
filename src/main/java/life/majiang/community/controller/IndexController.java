@@ -19,8 +19,7 @@ import java.util.List;
 
 @Controller
 public class IndexController {
-    @Autowired
-    private UserMapper userMapper;
+
     @Autowired
     private QuestionService questionService;
     @GetMapping("/")
@@ -28,23 +27,8 @@ public class IndexController {
                         Model model,
                         @RequestParam(name="page",defaultValue = "1") Integer page,
                         @RequestParam(name="size",defaultValue = "5") Integer size){
-        Cookie[] cookies =request.getCookies();
-        if (cookies!=null && cookies.length!=0){
-        for (Cookie c:cookies){
-           if (c.getName().equals("token"))
-               {
-                   String token = c.getValue();
-                   User user =userMapper.findBytoken(token);
-                   if(user!=null){
-                       request.getSession().setAttribute("user",user);
-                   }
-                   break;
-               }
-        }
 
-        }
         PageinationDTO pagenation=questionService.list(page,size);
-
         model.addAttribute("pagenation",pagenation);
         return "index";
     }
