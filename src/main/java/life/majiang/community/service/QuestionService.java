@@ -59,7 +59,7 @@ public class QuestionService {
         pageinationDTO.setQuestions(questionDTOList);
         return pageinationDTO;
     }
-    public PageinationDTO list(Integer id,Integer page,Integer size){
+    public PageinationDTO list(Long id,Integer page,Integer size){
         PageinationDTO pageinationDTO = new PageinationDTO();
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -124,12 +124,15 @@ public class QuestionService {
         else{
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setLikeCount(0);
+            question.setViewCount(0);
             //create
             questionMapper.insert(question);
         }
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
 //        QuestionExample questionExample=new QuestionExample();
 //        questionExample.createCriteria().andIdEqualTo(id);
 //        Question question =new Question();

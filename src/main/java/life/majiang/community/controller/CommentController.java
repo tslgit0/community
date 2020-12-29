@@ -35,7 +35,7 @@ public class CommentController {
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());
         comment.setLikeCount(0L);
-        CommentService.insert(comment);
+        commentService.insert(comment);
         return ResultDTO.okOf();
         //responsebody 是spring mvc 可以吧map json后放在body里
 

@@ -40,7 +40,9 @@ public class CustomizeExceptionHandler {
              if(e instanceof CustomizeException){
                         model.addAttribute("message",e.getMessage());
                     }else {
-                        model.addAttribute("message","未知错误");
+                 //本来写的未知错误 但是不利与调试
+                 // 现在是输出 e的原生错误信息到页面
+                        model.addAttribute("message",e.getMessage());
                     }
             return new ModelAndView("error");
         }
