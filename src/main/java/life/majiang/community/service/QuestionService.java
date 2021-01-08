@@ -1,6 +1,6 @@
 package life.majiang.community.service;
 
-import life.majiang.community.dto.PageinationDTO;
+import life.majiang.community.dto.PaginationDTO;
 import life.majiang.community.dto.QuestionDTO;
 import life.majiang.community.exception.CustomizeErrorCode;
 
@@ -8,7 +8,6 @@ import life.majiang.community.exception.CustomizeException;
 import life.majiang.community.mapper.QuestionExtMapper;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.mapper.UserMapper;
-import life.majiang.community.model.CustomerExample;
 import life.majiang.community.model.Question;
 import life.majiang.community.model.QuestionExample;
 import life.majiang.community.model.User;
@@ -33,14 +32,14 @@ public class QuestionService {
     private Integer totalPage;
 
     //page 第几页 offset 当前问题起始
-    public PageinationDTO list(Integer page, Integer size){
+    public PaginationDTO list(Integer page, Integer size){
         // pages.clear();
 
-        PageinationDTO pageinationDTO = new PageinationDTO();
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO();
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
-        page=pageinationDTO.setPagenation(totalCount,page,size);
+        page= paginationDTO.setPagenation(totalCount,page,size);
         Integer offset=size*(page-1);
         QuestionExample questionExample=new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");
@@ -61,18 +60,18 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        pageinationDTO.setQuestions(questionDTOList);
-        return pageinationDTO;
+        paginationDTO.setData(questionDTOList);
+        return paginationDTO;
     }
-    public PageinationDTO list(Long id,Integer page,Integer size){
-        PageinationDTO pageinationDTO = new PageinationDTO();
+    public PaginationDTO list(Long id, Integer page, Integer size){
+        PaginationDTO paginationDTO = new PaginationDTO();
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         QuestionExample questionExample=new QuestionExample();
-        questionExample.createCriteria().andIdEqualTo(id);
+        questionExample.createCriteria().andCreatorEqualTo(id);
         Integer totalCount = (int)questionMapper.countByExample(questionExample);
-        page=pageinationDTO.setPagenation(totalCount,page,size);
+        page= paginationDTO.setPagenation(totalCount,page,size);
         Integer offset=size*(page-1);
         List<Question> questions =questionMapper.selectByExampleWithRowbounds(questionExample,new RowBounds(offset,size));
         if (totalCount%size==0){
@@ -91,8 +90,8 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        pageinationDTO.setQuestions(questionDTOList);
-        return pageinationDTO;
+        paginationDTO.setData(questionDTOList);
+        return paginationDTO;
     }
 
     public QuestionDTO getById(Long id) {

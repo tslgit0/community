@@ -11,6 +11,10 @@
 
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/editormd/css/editormd.preview.css">
+    <script src="/editormd/editormd.js"></script>
+    <script src="/editormd/lib/marked.min.js"></script>
+    <script src="/editormd/lib/prettify.min.js"></script>
 </head>
 
 <body>
@@ -32,7 +36,14 @@
                 </span>
             <hr>
             <!--描述-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 section" th:text="${question.getDescription()}"></div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+                <textarea style="display:none;" th:text="${question.description}"></textarea>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    editormd.markdownToHTML("question-view", {});
+                });
+            </script>
 
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 section">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -63,8 +74,8 @@
                     <div class="media-left">
                         <a href="#">
                             <img class="media-object img-circle"
-                                 src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3684536465,3063644397&fm=26&gp=0.jpg"
-                                 alt="...">
+                                 th:src="${comment.user.avatarUrl}"
+                                >
                         </a>
                     </div>
                     <div class="media-body" th:id="${'comment-body-'+comment.id}">
@@ -110,16 +121,14 @@
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object img-circle"
-                                 src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3684536465,3063644397&fm=26&gp=0.jpg"
-                                 alt="...">
+                            <img class="media-object img-rounded"
+                                 th:src="${session.user != null ? session.user.avatarUrl : '/images/default-avatar.png'}">
                         </a>
                     </div>
                     <div class="media-body">
-                        <h6>
-                            <span class="media-heading" th:text="${question.user.getName()}"></span>
-                        </h6>
-
+                        <h5 class="media-heading">
+                            <span th:text="${session.user != null ? session.user.name : '游客'}"></span>
+                        </h5>
                     </div>
                 </div>
                 <input type="hidden" id="question_id" th:value="${question.id}">
@@ -134,9 +143,7 @@
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object img-circle"
-                                 src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3684536465,3063644397&fm=26&gp=0.jpg"
-                                 alt="...">
+                            <img class="media-object img-circle" th:src="${question.user.avatarUrl}">
                         </a>
                     </div>
                     <div class="media-body">

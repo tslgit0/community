@@ -28,10 +28,10 @@
                     <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>问题广场</h2>
                     <hr>
                     <!--/*@thymesVar id="questions" type=""*/-->
-                    <li class="media" th:each="question:${pagenation.questions}">
+                    <li class="media" th:each="question:${pagenation.data}">
                         <div class="media-left">
                             <a href="#">
-                                <img class="media-object img-circle" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3684536465,3063644397&fm=26&gp=0.jpg" alt="...">
+                                <img class="media-object img-circle" th:src="${question.user.avatarUrl}" >
                             </a>
                         </div>
                         <div class="media-body">
